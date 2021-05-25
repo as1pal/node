@@ -5,3 +5,7 @@ package.json  - "start" : "nodemon app"
 npm i express morgan dotenv nunjucks method-override multer cookie-parser express-session
 
 npm i -D nodemon
+
+npm i sequelize sequelize-cli mysql2
+
+npx sequelize init
