@@ -9,3 +9,10 @@ npm i -D nodemon
 npm i sequelize sequelize-cli mysql2
 
 npx sequelize init
+
+
+npm i bcrypt
+(암호화 방식)
+
+git config user.name "아이디"
+git config user.email "이메일"
