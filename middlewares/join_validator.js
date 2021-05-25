@@ -13,5 +13,5 @@ module.exports.joinValidator = (req, res, next) => {
     if (!req.body.memPw) {
         return alert("비밀번호를 입력하세여", res);
     }
-    next(); //유효성 검사 성공시 -> 다음 미들웨어로 이동
+    next(req, res, next); //유효성 검사 성공시 -> 다음 미들웨어로 이동
 };
