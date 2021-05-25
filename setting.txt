@@ -30,3 +30,7 @@ git config user.email "이메일"
 
 
 lib/common.js (공통함수)
+
+routes/admin
+
+middlewares/login_session (	로그인 여부 체크후 추가처리 미들웨어)
