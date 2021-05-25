@@ -1,3 +1,14 @@
+
+CREATE TABLE `member` (
+	`memId` VARCHAR(20) NOT NULL DEFAULT '' COLLATE 'utf8_general_ci',
+	`memPw` VARCHAR(65) NOT NULL COLLATE 'utf8_general_ci',
+	`isAdmin` TINYINT(1) NULL DEFAULT '0' COMMENT '1 - 관리자, 0 - 일반',
+	PRIMARY KEY (`memId`) USING BTREE
+)
+COLLATE='utf8_general_ci'
+ENGINE=InnoDB
+;
+
 npm init
 
 package.json  - "start" : "nodemon app"
@@ -16,3 +27,6 @@ npm i bcrypt
 
 git config user.name "아이디"
 git config user.email "이메일"
+
+
+lib/common.js (공통함수)
