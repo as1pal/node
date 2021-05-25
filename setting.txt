@@ -1,0 +1,7 @@
+npm init
+
+package.json  - "start" : "nodemon app"
+
+npm i express morgan dotenv nunjucks method-override multer cookie-parser express-session
+
+npm i -D nodemon
