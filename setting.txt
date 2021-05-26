@@ -26,6 +26,7 @@ npx sequelize init
 npm i bcrypt
 (암호화 방식)
 
+git clone 깃주소
 git config user.name "아이디"
 git config user.email "이메일"
 

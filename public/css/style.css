@@ -23,7 +23,7 @@ input[type='number'] { border: 1px solid #d5d5d5; padding: 0 10px; height: 40px;
 .layout_width { width: 1200px; margin: 0 auto !important; }
 
 /** member/login.html */
-.login_box { width: 500px; box-shadow: 2px 2px 5px #06224f; border-radius: 20px; padding: 20px; position: fixed; left: calc(50% - 250px); top: calc(35% - 122px); }
+.login_box { width: 500px; box-shadow: 2px 2px 5px #06224f; border-radius: 20px; padding: 20px; position: fixed; left: calc(50% - 250px); top: calc(50% - 122px); }
 .login_box .links { text-align: right; padding: 10px; }
 .login_box .links a:hover { text-decoration: underline; }
 
