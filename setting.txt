@@ -8,6 +8,7 @@ CREATE TABLE `member` (
 COLLATE='utf8_general_ci'
 ENGINE=InnoDB
 ;
+
 UPDATE member SET isAdmin='1';
 
 npm init
@@ -15,7 +16,7 @@ npm init
 package.json  - "start" : "nodemon app"
 
 npm i express morgan dotenv nunjucks method-override multer cookie-parser express-session
-
+ 
 npm i -D nodemon
 
 npm i sequelize sequelize-cli mysql2
@@ -30,6 +31,9 @@ git clone 깃주소
 git config user.name "아이디"
 git config user.email "이메일"
 
+git pull - 소스 동기화
+
+git revert - 소스 전으로 되돌림
 
 lib/common.js (공통함수)
 
