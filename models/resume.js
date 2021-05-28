@@ -1,4 +1,8 @@
 const { sequelize, Sequelize : { QueryTypes } } = require('./index');
+const fs = require('fs').promises;
+const contants = require('fs').constants;
+const path = require('path');
+
 /**
 * 이력서 Model
 *
@@ -385,6 +389,7 @@ const resume = {
 			'license',
 			'overseas',
 			'portfolio',
+			'school',
 		];
 		
 		const data = {};
@@ -411,6 +416,12 @@ const resume = {
 		} catch (err) {
 			return {};
 		}
+		
+		/* 프로필 이미지 */
+		try {
+			await fs.access(path.join(__dirname, "../public/profile/profile"), contants.F_OK);
+			data['profile'] = "/profile/profile";
+		} catch (err) {}
 		
 		return data;
 	},
