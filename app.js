@@ -14,6 +14,7 @@ const { loginSession } = require('./middlewares/login_session');
 const memberRouter = require('./routes/member');
 const adminRouter = require('./routes/admin');
 const uploadRouter = require('./routes/upload');
+const indexRouter = require('./routes');
 
 dotenv.config();
 
@@ -38,7 +39,7 @@ app.use(morgan('dev'));
 app.use(methodOverride("_method"));
 app.use(express.json());
 app.use(express.urlencoded({ extended : false }));
-app.use("/", express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'public')));
 app.use(cookieParser(process.env.COOKIE_SECRET)); // 쿠기 설정 
 app.use(session({
 	resave: false,
@@ -47,7 +48,7 @@ app.use(session({
 		httpOnly : true,
 		secure : false,
 	},
-	name : 'wjsession',
+	name : 'yhsession',
 }));
 
 app.use(loginSession);
@@ -56,6 +57,7 @@ app.use(loginSession);
 app.use("/member", memberRouter);
 app.use("/admin", adminRouter);
 app.use("/upload", uploadRouter);
+app.use(indexRouter);
 
 // 없는 페이지 처리 미들웨어(라우터)
 app.use((req, res, next) => {

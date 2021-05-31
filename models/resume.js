@@ -46,6 +46,9 @@ const resume = {
 										  benefit = :benefit,
 										  handicapLevel = :handicapLevel,
 										  military = :military,
+										  militaryStartDate = :militaryStartDate,
+										  militaryEndDate = :militaryEndDate,
+										  militaryRank = :militaryRank,
 										  negotiableSalary = :negotiableSalary`;
 				let replacements = {
 					resumeTitle : params.resumeTitle,
@@ -63,6 +66,9 @@ const resume = {
 					benefit : params.benefit || "",
 					handicapLevel : params.handicapLevel,
 					military : params.military,
+					militaryStartDate : params.militaryStartDate,
+					militaryEndDate : params.militaryEndDate,
+					militaryRank : params.militaryRank,
 					negotiableSalary : params.negotiableSalary || 0,
 				};
 				
@@ -81,14 +87,33 @@ const resume = {
 				if (!(params.schoolType instanceof Array)) {
 					params.schoolType = [params.schoolType];
 					params.schoolName = [params.schoolName];
+					params.schoolStartDate = [params.schoolStartDate];
+					params.schoolEndDate = [params.schoolEndDate];
+					params.schoolStatus = [params.schoolStatus];
+					params.schoolTransfer = [params.schoolTransfer];
+					params.schoolMajor = [params.schoolMajor];
+					params.schoolScore = [params.schoolScore];
+					params.schoolGradeTotal = [params.schoolGradeTotal];
 				}
-				
-				params.schoolType.forEach(async (type, index) => {
-						name = params.schoolName[index];
-						
-						const sql = "INSERT INTO school (type, name) VALUES (?, ?)";
+		
+				params.schoolType.forEach(async (type, index) => {				
+						const sql = `INSERT INTO school (type, name, startDate, endDate, status, transfer, major, score, gradeTotal)
+												VALUES (:type, :name, :startDate, :endDate, :status, :transfer, :major, :score, :gradeTotal)`;
+												
+						const replacements = {
+								type : type,
+								name : params.schoolName[index],
+								startDate : params.schoolStartDate[index],
+								endDate : params.schoolEndDate[index],
+								status : params.schoolStatus[index],
+								transfer : params.schoolTransfer[index],
+								major : params.schoolMajor[index],
+								score : params.schoolScore[index],
+								gradeTotal : params.schoolGradeTotal[index],
+						};
+
 						await sequelize.query(sql, {
-							replacements : [type, name],
+							replacements,
 							type : QueryTypes.INSERT,
 						});
 				});
@@ -346,7 +371,7 @@ const resume = {
 			// introduction 자기소개 S 
 			sql = 'TRUNCATE introduction';
 			await sequelize.query(sql, { type : QueryTypes.DELETE });
-			if (params.items && params.items.indexOf('자기소개') != -1) {
+			if (params.items && params.items.indexOf('자기소개서') != -1) {
 				if (!(params.introductionTitle instanceof Array)) {
 					params.introductionTitle = [params.introductionTitle];
 					params.introduction = [params.introduction];
@@ -408,9 +433,21 @@ const resume = {
 				if (table == 'basicinfo') { // 기본 인적사항 -> 레코드 1개
 					data[table] = rows[0];
 					data[table].benefit = data[table].benefit?data[table].benefit.split("||"):[];
+				
+					let age = 0, birthYear = 0;
+					if (data[table].birthDate) {
+						const birthDate = data[table].birthDate.split(".");
+						
+						const year = Number(new Date().getFullYear());
+						age = year - Number(birthDate[0]) + 1;
+						birthYear = birthDate[0];
+					}
 					
+					data[table].birthYear = birthYear;
+					data[table].age = age;
+				
 				} else { // 나머지는 레코드 여러개 
-					data[table] = rows;
+					data[table] = rows;ㄴ
 				}
 			}
 		} catch (err) {
