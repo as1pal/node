@@ -3,6 +3,12 @@
 <link rel="stylesheet" type="text/css" href="/css/front.css">
 {% endblock %}
 {% block content %}
+{% if isLogin %} 
+<div class='print_btn no_print' onclick="window.print();">
+	<i class='xi-print'></i>
+	인쇄하기
+</div>
+{% endif %}
 <div class='container layout_width'>
 	<div class='main_title'>이력서</div>
 	<div class='info_box basic_info'>
@@ -52,7 +58,7 @@
 				{% if jobhistory %}
 				<div class='text2'>{{ jobhistory[0].company }}</div>
 				<div class='text3'>{{ '재직' if jobhistory[0].inOffice else '퇴사' }}</div>
-				<div class='text3'></div>
+				<div class='text3'>{{ jobhistory[0].period }}</div>
 				{% endif %}
 			</div>
 			<div class='box box3'>
@@ -79,7 +85,7 @@
 		<!--// rows2 -->
 	</div>
 	
-	{% if school %}
+	{% if school.length > 0 %}
 	<div class='sub_title'>학력</div>
 	<div class='info_box info_box2 school'>
 		{% for item in school %}
@@ -113,7 +119,7 @@
 	</div>
 	{% endif %}
 	
-	{% if jobhistory %}
+	{% if jobhistory.length > 0 %}
 	<div class='sub_title'>경력</div>
 	<div class='info_box info_box2 jobhistory'>
 		{% for item in jobhistory %}
@@ -132,6 +138,9 @@
 					<span class='tt3'>{{ item.company }}</span>
 					<span class='tt4'>{{ item.position }} {% if item.task %} {{ item.task }} {% endif %}</span>
 				</div>
+				{% if item.work2 %} 
+				<div class='tt5'>{{ item.work2 | safe }}</div>
+				{% endif %}
 			</div>
 		</div>
 		<!--// rows -->
@@ -140,7 +149,7 @@
 	<!--// info_box -->
 	{% endif %}
 	
-	{% if intern %}
+	{% if intern.length > 0 %}
 	<div class='sub_title'>인턴·대외활동</div>
 	<div class='info_box info_box2 intern'>
 		{% for item in intern %}
@@ -161,7 +170,7 @@
 				</div>
 				{% if item.description2 %}
 				<div class='tt5'>
-					{{ item.description2 }}
+					{{ item.description2 | safe }}
 				</div>
 				{% endif %}
 			</div>
@@ -172,7 +181,7 @@
 	<!--// info_box -->
 	{% endif %}
 	
-	{% if education %}
+	{% if education.length > 0 %}
 	<div class='sub_title'>교육이수</div>
 	<div class='info_box info_box2 education'>
 		{% for item in education %}
@@ -193,7 +202,7 @@
 				</div>
 				{% if item.description2 %}
 				<div class='tt5'>
-				{{ item.description2 }}
+				{{ item.description2 | safe }}
 				</div>
 				{% endif %}
 			</div>
@@ -204,7 +213,7 @@
 	{% endif %}
 	
 	
-	{% if license %}
+	{% if license.length > 0 %}
 	<div class='sub_title'>자격증</div>
 	<div class='info_box info_box2 license'>
 		{% for item in license %}
@@ -222,7 +231,7 @@
 	</div>
 	{% endif %}
 	
-	{% if award %}
+	{% if award.length > 0 %}
 	<div class='sub_title'>수상</div>
 	<div class='info_box info_box2 award'>
 		{% for item in award %}
@@ -237,7 +246,7 @@
 				</div>
 				{% if item.description2 %}
 				<div class='tt5'>
-					{{ item.description2 }}
+					{{ item.description2 | safe }}
 				</div>
 				{% endif %}
 			</div>
@@ -247,7 +256,7 @@
 	</div>
 	{% endif %}
 	
-	{% if overseas %}
+	{% if overseas.length > 0 %}
 	<div class='sub_title'>해외경험</div>
 	<div class='info_box info_box2 overseas'>
 		{% for item in overseas %}
@@ -264,7 +273,7 @@
 			<div class='box box2'>
 				<div class='tt3'>{{ item.name }}</div>
 				{% if item.description2 %}
-				<div class='tt5'>{{ item.description2 }}</div>
+				<div class='tt5'>{{ item.description2 | safe }}</div>
 				{% endif %}
 			</div>
 		</div>
@@ -273,7 +282,7 @@
 	</div>
 	{% endif %}
 	
-	{% if language %}
+	{% if language.length > 0 %}
 	<div class='sub_title'>어학</div>
 	<div class='info_box info_box2 language'>
 		{% for item in language %}
@@ -291,7 +300,7 @@
 	</div>
 	{% endif %}
 	
-	{% if portfolio %}
+	{% if portfolio.length > 0 %}
 	<div class='sub_title'>포트폴리오</div>
 	<div class='info_box info_box2 portfolio'>
 		{% for item in portfolio %}
@@ -306,7 +315,7 @@
 			</div>
 			
 			{% if item.description2 %}
-			<div class='tt5'>{{ item.description2 }}</div>
+			<div class='tt5'>{{ item.description2 | safe }}</div>
 			{% endif %}
 			
 		</div>
@@ -315,13 +324,26 @@
 	<!--// info_box -->
 	{% endif %}
 	
+	{% if introduction.length > 0 %}
+	<div class='sub_title'>자기소개서</div>
+	<div class='intro'>
+		{% for item in introduction %}
+		<div class='rows'>
+			<div class='tit'>{{ item.title }}</div>
+			<div class='desc'>{{ item.introduction2 | safe }}</div>
+		</div>
+		{% endfor %}
+	</div>
+	<!--// intro -->
+	{% endif %}
+	
 	{% if basicinfo.benefit %}
 	<div class='sub_title'>취업우대사항</div>
 	<table>
 		<tr>
 			<th>보훈대상</th>
 			<td>
-				{% if basicinfo.benefit.indexOf('보훈대상') %}
+				{% if basicinfo.benefit1 %}
 					보훈 대상자
 				{% else %}
 					해당 없음
@@ -329,22 +351,22 @@
 			</td>
 			<th>취업보호대상 여부</th>
 			<td>
-				{% if basicinfo.benefit.indexOf('취업보호 대상') %}
+				{% if basicinfo.benefit2 %}
 					취업보호 대상자
 				{% else %}
 					해당 없음
 				{% endif %}
 			</td>
 			<th>고용지원금대상 여부</th>
-			<td>
-				{% if basicinfo.benefit.indexOf('고용지원금 대상') %}
+			<td class='last'>
+				{% if basicinfo.benefit3 %}
 					대상
 				{% else %}
 					해당 없음
 				{% endif %}
 			</td>
 		</tr>
-		{% if basicinfo.benefit.indexOf('병역') != -1 or basicinfo.benefit.indexOf('장애') != -1 %}
+		{% if basicinfo.benefit5 or basicinfo.benefit4 %}
 		<tr>
 			<th>병역사항</th>
 			<td colspan='3'>
@@ -354,7 +376,7 @@
 				{% endif %}
 			</td>
 			<th>장애여부</th>
-			<td>
+			<td class='last'> 
 				{% if basicinfo.handicapLevel %}
 				{{ basicinfo.handicapLevel }}
 				{% else %}
@@ -367,6 +389,36 @@
 	{% endif %}
 	
 	<div class='sub_title'>희망근무조건</div>
+	<table>
+		<tr>
+			<th>고용형태</th>
+			<td class='last'>
+				{{ basicinfo.workType }}
+			</td>
+		</tr>
+		<tr>
+			<th>희망연봉</th>
+			<td class='last'>
+				{% if basicinfo.negotiableSalary %} 
+					면접 후 결정 
+				{% else %} 
+					{{ basicinfo.salary }} 
+				{% endif %}
+			</td>
+		</tr>
+		<tr>
+			<th>희망근무지</th>
+			<td class='last'>
+				{{ basicinfo.workLocation }}
+			</td>
+		</tr>
+	</table>
+	
+	<div class='resume_guide'>
+		<div class='t1'>위의 모든 기재사항은 사실과 다름없음을 확인합니다.</div>
+		<div class='t2'>작성자 : {{ basicinfo.name }}</div>
+		<div class='t3'>이 이력서는 {{ today }}에 최종 업데이트된 이력서 입니다.</div>
+	</div>
 </div>
 <!--// container -->
 {% endblock %}
